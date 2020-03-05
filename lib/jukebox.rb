@@ -1,12 +1,54 @@
-my_songs = {
-"Go Go GO" => '< path to this directory >/jukebox-cli/audio/Emerald-Park/01.mp3',	"Go Go GO" => '/home/pat/code/labs/jukebox-cli-001-prework-web/audio/Emerald-Park/01.mp3',
-"LiberTeens" => '< path to this directory >/jukebox-cli/audio/Emerald-Park/02.mp3',	"LiberTeens" => '/home/pat/code/labs/jukebox-cli-001-prework-web/audio/Emerald-Park/02.mp3',
-"Hamburg" =>  '< path to this directory >/jukebox-cli/audio/Emerald-Park/03.mp3',	"Hamburg" =>  '/home/pat/code/labs/jukebox-cli-001-prework-web/audio/Emerald-Park/03.mp3',
-"Guiding Light" => '< path to this directory >/jukebox-cli/audio/Emerald-Park/04.mp3',	"Guiding Light" => '/home/pat/code/labs/jukebox-cli-001-prework-web/audio/Emerald-Park/04.mp3',
-"Wolf" => '< path to this directory >/jukebox-cli/audio/Emerald-Park/05.mp3',	"Wolf" => '/home/pat/code/labs/jukebox-cli-001-prework-web/audio/Emerald-Park/05.mp3',
-"Blue" => '< path to this directory >/jukebox-cli/audio/Emerald-Park/06.mp3',	"Blue" => '/home/pat/code/labs/jukebox-cli-001-prework-web/audio/Emerald-Park/06.mp3',
-"Graduation Failed" => '< path to this directory >/jukebox-cli/audio/Emerald-Park/07.mp3'	"Graduation Failed" => '/home/pat/code/labs/jukebox-cli-001-prework-web/audio/Emerald-Park/07.mp3'
-}	}
 
+def help
+	puts "I accept the following commands:",
+		"- help : displays this help message",
+		"- list : displays a list of songs you can play",
+		"- play : lets you choose a song to play",
+		"- exit : exits the program"
+end
 
-run(my_songs)	run(my_songs)
+def list(songs)
+	songs.each_with_index do |song, idx|
+		puts "#{idx+1}. #{song}"
+	end
+end
+
+def play(songs)
+	picked_song = nil
+	puts "Please enter a song name or number:"
+	input = gets.chomp
+	songs.each_with_index do |song, idx|
+		if input == song || input == (idx+1).to_s
+			picked_song = song
+		end
+	end
+	if picked_song == nil
+		puts "Invalid input, please try again"
+	else
+		puts "Playing #{picked_song}"
+	end
+end
+
+def exit_jukebox
+	puts "Goodbye"
+end
+
+def run(songs)
+	help
+	input = nil
+	while input != "exit"
+		puts "Please enter a command:"
+		input = gets.chomp
+		case
+		when input == "help"
+			help
+		when input == "list"
+			list(songs)
+		when input == "play"
+			play(songs)
+		else
+			puts "Invalid input, please try again"
+		end
+	end
+	exit_jukebox
+end
