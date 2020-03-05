@@ -3,29 +3,25 @@ def help
   puts "- help : displays this help message"
   puts "- list : displays a list of songs you can play"
   puts "- play : lets you choose a song to play"
-  puts "- exit : exits this program"
+  puts "- exit : exits the program"
 end
 
 def list(songs)
-  songs.each_with_index { |song, index|
-    puts (index + 1).to_s + ". " + song
-    }
+  new = []
+  songs.each_with_index do |s,i|
+    n = i.to_i + 1
+    new << n.to_s + ". " + s
+  end
+  puts new
+  new
 end
 
 def play(songs)
   puts "Please enter a song name or number:"
-  user_response = gets.chomp
-  output = ""
-  songs.each_with_index { |song, index|
-    if user_response == (index + 1).to_s || user_response == song
-      output = "Playing #{song}"
-    end
-  }
-  if output.include?("Playing")
-    puts output
-  elsif user_response == "list"
-    list(songs)
-    play(songs)
+  user = gets.chomp
+  str = list(songs).join(" ")
+  if str.include?(user)
+    puts "Playing " + user
   else
     puts "Invalid input, please try again"
   end
@@ -37,27 +33,22 @@ end
 
 def run(songs)
   help
-  puts "Please enter a command:"
-  user_response = gets.chomp
-  while user_response != "exit"
-    case user_response
-      when "help"
-        help
-        puts "Please enter a command:"
-        user_response = gets.chomp
+  while true
+    puts "Please enter a command:"
+    command = gets.chomp
+    case command
       when "list"
         list(songs)
-        puts "Please enter a command:"
-        user_response = gets.chomp
       when "play"
         play(songs)
-        puts "Please enter a command:"
-        user_response = gets.chomp
+      when "help"
+        help
+      when "exit"
+        exit_jukebox
+        break
       else
-        puts "Invalid input, please try again"
-        user_response = gets.chomp
+        help
     end
   end
-  exit_jukebox
-end 
+end
 
